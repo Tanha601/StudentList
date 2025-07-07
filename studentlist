@@ -47,7 +47,7 @@ public class StudentList {
                 }
                 break;
 
-            case '+': // Add student
+            case '+': 
                 if (args[0].length() == 1) {
                     System.out.println("student name  add.");
                     return;
@@ -109,7 +109,7 @@ public class StudentList {
                 }
                 break;
 
-            case 'c': // Count students
+            case 'c': 
                 System.out.println("Loading data ...");
                 try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
                     String line = reader.readLine();
