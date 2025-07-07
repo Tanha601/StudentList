@@ -1,0 +1,131 @@
+// File Name: StudentList.java
+import java.io.*;
+import java.util.*;
+
+public class StudentList {
+    public static void main(String[] args) {
+        // Check arguments
+        if (args.length == 0) {
+            System.out.println("Loading data.");
+            return;
+        }
+
+        String fileName = "students.txt";
+
+        switch (args[0].charAt(0)) {
+            case 'a':
+                System.out.println("Loading data ...");
+                try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+                    String line = reader.readLine();
+                    if (line != null && !line.trim().isEmpty()) {
+                        String[] students = line.split(",");
+                        for (String student : students) {
+                            System.out.println(student.trim());
+                        }
+                    } else {
+                        System.out.println("No data found.");
+                    }
+                } catch (IOException e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+                break;
+
+            case 'r': 
+                System.out.println("Loading data ...");
+                try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+                    String line = reader.readLine();
+                    if (line != null && !line.trim().isEmpty()) {
+                        String[] students = line.split(",");
+                        Random rand = new Random();
+                        int index = rand.nextInt(students.length);
+                        System.out.println("Random student: " + students[index].trim());
+                    } else {
+                        System.out.println("No students found.");
+                    }
+                } catch (IOException e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+                break;
+
+            case '+': // Add student
+                if (args[0].length() == 1) {
+                    System.out.println("student name  add.");
+                    return;
+                }
+                String newStudent = args[0].substring(1).trim();
+                System.out.println("Loading data ...");
+                try {
+                    File file = new File(fileName);
+                    boolean fileExists = file.exists();
+                    boolean fileEmpty = true;
+
+                    if (fileExists) {
+                        try (BufferedReader checkReader = new BufferedReader(new FileReader(file))) {
+                            String checkLine = checkReader.readLine();
+                            fileEmpty = (checkLine == null || checkLine.trim().isEmpty());
+                        }
+                    }
+
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
+                        if (!fileEmpty) {
+                            writer.write(", ");
+                        }
+                        writer.write(newStudent);
+                        System.out.println("Student added.");
+                    }
+
+                } catch (IOException e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+                break;
+
+            case '?': 
+                if (args[0].length() == 1) {
+                    System.out.println("provide a student name to search.");
+                    return;
+                }
+                String searchName = args[0].substring(1).trim();
+                System.out.println("Loading data ...");
+                try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+                    String line = reader.readLine();
+                    if (line != null && !line.trim().isEmpty()) {
+                        String[] students = line.split(",");
+                        boolean found = false;
+                        for (String student : students) {
+                            if (student.trim().equalsIgnoreCase(searchName)) {
+                                System.out.println("found it!");
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            System.out.println("Student not found.");
+                        }
+                    } else {
+                        System.out.println("No data to search.");
+                    }
+                } catch (IOException e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+                break;
+
+            case 'c': // Count students
+                System.out.println("Loading data ...");
+                try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+                    String line = reader.readLine();
+                    if (line != null && !line.trim().isEmpty()) {
+                        String[] students = line.split(",");
+                        System.out.println(students.length + " student(s) found.");
+                    } else {
+                        System.out.println("No student data available.");
+                    }
+                } catch (IOException e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+                break;
+
+            default:
+                System.out.println("Invalid command.");
+        }
+    }
+}
