@@ -1,7 +1,7 @@
 // File Name: StudentList.java
 import java.io.*;
 import java.util.*;
-ghfh
+
 public class StudentList {
     public static void main(String[] args) {
         // Check arguments
